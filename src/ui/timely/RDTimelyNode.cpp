@@ -102,7 +102,7 @@ bool RDTimelyNode::init(CCSize size, std::string id, float scale) {
     safeMenu->addChild(safeButton);
     m_safeButton = safeButton;
 
-    // std::vector<int> timelyUnk = {GLM->m_dailyIDUnk, GLM->m_weeklyIDUnk, GLM->m_eventIDUnk};
+    // std::vector<int> timelyUnk = {GLM->m_activeDailyID, GLM->m_activeWeeklyID, GLM->m_activeEventID};
     // if (auto level = GLM->getSavedDailyLevel(timelyUnk[levelType])) {
     //     RDTimelyNode::setupLevelMenu(level);
     // } else {
@@ -240,7 +240,7 @@ void RDTimelyNode::setupLevelMenu(GJGameLevel* level) {
     featureRating += level->m_isEpic;
 
     auto difficultySprite = GJDifficultySprite::create(difficultyRating, GJDifficultyName::Short);
-    difficultySprite->updateFeatureState(as<GJFeatureState>(featureRating));
+    difficultySprite->updateFeatureState(static_cast<GJFeatureState>(featureRating));
     difficultySprite->setScale(0.8f);
     difficultySprite->setPosition({ m_menu->getContentWidth()/7.5f, viewButton->getPositionY() + 2.5f });
     difficultySprite->setID("difficulty-sprite");

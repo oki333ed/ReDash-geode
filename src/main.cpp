@@ -134,8 +134,8 @@ class $modify(CrazyLayer, MenuLayer) {
 				if (loader->getLoadedMod("smjs.gdintercept")->getVersion() < VersionInfo::parse("v0.5.0-alpha.5").unwrapOrDefault()) id = "smjs.gdintercept/blame-overcharged-menu";
 				if (auto node = this->getChildByIDRecursive(id)) {
 					CCMenuItemSpriteExtra* button = nullptr;
-					if (typeinfo_cast<CCSprite*>(node)) button = as<CCMenuItemSpriteExtra*>(node->getParent());
-					else if (typeinfo_cast<CCMenuItemSpriteExtra*>(node)) button = as<CCMenuItemSpriteExtra*>(node);
+					if (typeinfo_cast<CCSprite*>(node)) button = static_cast<CCMenuItemSpriteExtra*>(node->getParent());
+					else if (typeinfo_cast<CCMenuItemSpriteExtra*>(node)) button = static_cast<CCMenuItemSpriteExtra*>(node);
 
 					if (button) {
 						button->removeFromParent();
@@ -186,7 +186,7 @@ class $modify(CrazyLayer, MenuLayer) {
 	}
 
 	void onHideMenu(CCObject* sender) {
-		bool toggle = as<CCMenuItemToggler*>(sender)->isOn();
+		bool toggle = static_cast<CCMenuItemToggler*>(sender)->isOn();
 
 		m_fields->m_mainMenu->setVisible(toggle);
 		m_fields->m_timeliesMenu->setVisible(toggle);
@@ -623,7 +623,7 @@ class $modify(CrazyLayer, MenuLayer) {
 			}
 			
 			if (pagesMod->getSettingValue<bool>("menulayer-right-menu")) {
-				rightMenu->setLayout(as<RowLayout*>(rightMenu->getLayout())->setAutoScale(false)->setAxisAlignment(AxisAlignment::Center));
+				rightMenu->setLayout(static_cast<RowLayout*>(rightMenu->getLayout())->setAutoScale(false)->setAxisAlignment(AxisAlignment::Center));
 				rightMenu->setScale(0.95);
 				rightMenu->setContentWidth(rightMenu->getContentWidth() - 75.f);
 				rightMenu->setUserObject("orientation", CCInteger::create(1)); // HORIZONTAL
@@ -643,8 +643,8 @@ class $modify(test, ChallengesPage) {
 		ChallengesPage::claimItem(node, item, point);
 
 		if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) {
-			if (CCMenuItemSpriteExtra* button = as<CrazyLayer*>(layer)->m_fields->m_questBtn) {
-				auto piVar2 = as<CrazyLayer*>(layer)->m_fields->m_questBtn->getChildByID("quest-notif"_spr);
+			if (CCMenuItemSpriteExtra* button = static_cast<CrazyLayer*>(layer)->m_fields->m_questBtn) {
+				auto piVar2 = static_cast<CrazyLayer*>(layer)->m_fields->m_questBtn->getChildByID("quest-notif"_spr);
 				bool claimable = false;
 				for (int i = 1; i <= 3; i++) {
 					if (auto challenge = GameStatsManager::sharedState()->getChallenge(i)) {
