@@ -17,3 +17,5 @@ Ref<cocos2d::CCDictionary> Variables::ThumbnailsDict = CCDictionary::create();
 
 bool Variables::didGetGJChallenge = false;
 std::vector<ChallengesPage*> Variables::challengesPages = {};
+
+bool Variables::isFromRedash = false;

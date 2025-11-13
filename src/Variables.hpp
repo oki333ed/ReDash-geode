@@ -22,4 +22,5 @@ namespace Variables {
     extern bool didGetGJChallenge;
     extern std::vector<ChallengesPage*> challengesPages;
 
+    extern bool isFromRedash;
 }

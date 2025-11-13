@@ -23,6 +23,8 @@
 #include <fmt/core.h>
 #include <Macros.hpp>
 
+#include <alphalaneous.pages_api/include/PageMenu.h>
+
 std::string getPathString(int n) {
 	switch (n) {
 		case 1: return "Fire";
@@ -78,9 +80,9 @@ class $modify(CrazyLayer, MenuLayer) {
 	};
 
 	static void onModify(auto& self) {
-        (void) self.setHookPriorityBeforePost("MenuLayer::init", "alphalaneous.vanilla_pages");
+		(void) self.setHookPriorityAfterPost("MenuLayer::init", "alphalaneous.vanilla_pages");
 		(void) self.setHookPriorityAfterPost("MenuLayer::init", "devcmb.cleanermenu");
-    }
+	}
 
 	void setupButtons() {
 		auto loader = Loader::get();
@@ -172,7 +174,7 @@ class $modify(CrazyLayer, MenuLayer) {
 		RD_ADD_CREATOR_BUTTON("spaghettdev.gd-roulette", "spaghettdev.gd-roulette/roulette-button", Variables::RouletteSelector, "RD_roulette.png"_spr);
 		RD_ADD_CREATOR_BUTTON("rainixgd.geome3dash", "rainixgd.geome3dash/map-button", Variables::G3DSelector, "RD_geome3dash.png"_spr);
 
-		#ifdef GEODE_IS_ANDROID
+		#ifdef GEODE_IS_MOBILE
 		if (loader->isModLoaded("geode.devtools")) {
 			auto btn = CCMenuItemSpriteExtra::create(
 				CircleButtonSprite::createWithSprite("RD_devtools.png"_spr, 1.f, CircleBaseColor::Green, CircleBaseSize::MediumAlt),
@@ -272,9 +274,10 @@ class $modify(CrazyLayer, MenuLayer) {
 		}
 		bottomMenu->updateLayout();
 		bottomMenu->setZOrder(1);
-		
+		static_cast<PageMenu*>(bottomMenu)->setPaged(5, PageOrientation::VERTICAL, bottomMenu->getContentHeight() - 2, -13);
+
 		auto rightMenu = this->getChildByID("right-side-menu");
-		rightMenu->setPosition(ccp(177.5f, 25.f));
+		rightMenu->setPosition(ccp(157.5f, 25.f));
 		rightMenu->setScale(0.75f);
 		rightMenu->setLayout(
 			RowLayout::create()
@@ -287,6 +290,7 @@ class $modify(CrazyLayer, MenuLayer) {
 		rightMenu->setContentHeight(60.f);
 		rightMenu->updateLayout();
 		rightMenu->getChildByID("daily-chest-button")->setZOrder(4);
+                static_cast<PageMenu*>(rightMenu)->setPaged(7, PageOrientation::HORIZONTAL, 315, -13);
 
 		auto playerUsername = this->getChildByID("player-username");
 		playerUsername->setScale(playerUsername->getScale() - 0.1f);
