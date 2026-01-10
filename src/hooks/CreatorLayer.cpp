@@ -28,6 +28,6 @@ class $modify(CreatorLayer) {
     void onSecretVault(CCObject* sender) {
         if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) Variables::isFromRedash = true;
         CreatorLayer::onSecretVault(sender);
-        if (GameStatsManager::get()->getStat("13") < 48) Variables::isFromRedash = false;
+        if (GameStatsManager::get()->getStat("13") < 0x32) Variables::isFromRedash = false;
     }
 };
