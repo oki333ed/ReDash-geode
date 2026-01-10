@@ -12,17 +12,17 @@ using namespace geode::prelude;
 
 class $modify(MyGSM, GameStatsManager) {
 	GJChallengeItem* getChallenge(int id) {
-        	GJChallengeItem* challengeItem = GameStatsManager::getChallenge(id);
+        GJChallengeItem* challengeItem = GameStatsManager::getChallenge(id);
 
 		Variables::didGetGJChallenge = true;
-        	if (Variables::challengesPages.empty()) return challengeItem;
+        if (Variables::challengesPages.empty()) return challengeItem;
 
-        	for (auto page : Variables::challengesPages) {
-           		if (page && page->retainCount() > 0) {
-                		page->release();
-            		};
-        	}
-        	Variables::challengesPages.clear();
+        for (auto page : Variables::challengesPages) {
+           	if (page && page->retainCount() > 0) {
+                page->release();
+            }
+        }
+        Variables::challengesPages.clear();
 
 		return challengeItem;
 	}
