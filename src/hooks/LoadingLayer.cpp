@@ -23,6 +23,7 @@ class $modify(LoadingLayer) {
 			RD_GET_SELECTOR(creatorLayer, "demon-progression-button", Variables::GDDPSelector);
 			RD_GET_SELECTOR(creatorLayer, "ungeil.higher_or_lower/HLButton", Variables::HigherOrLowerSelector);
 			RD_GET_SELECTOR(creatorLayer, "gdsrwave.jfp/jfp-launch-button", Variables::JFPSelector);
+        	RD_GET_SELECTOR(creatorLayer, "arcticwoof.rated_layouts/rated-layouts-button", Variables::RatedLayoutsSelector);
             if (loader->isModLoaded("rainixgd.geome3dash")) Variables::G3DSelector = menu_selector(CreatorLayer::onAdventureMap);
 
             if (loader->isModLoaded("gdutilsdevs.gdutils")) {

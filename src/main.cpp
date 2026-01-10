@@ -182,6 +182,7 @@ class $modify(CrazyLayer, MenuLayer) {
 		RD_ADD_CREATOR_BUTTON("rainixgd.geome3dash", "rainixgd.geome3dash/map-button", Variables::G3DSelector, "RD_geome3dash.png"_spr);
 		RD_ADD_CREATOR_BUTTON("ungeil.higher_or_lower", "ungeil.higher_or_lower/HLButton", Variables::HigherOrLowerSelector, "RD_higherlower.png"_spr);
 		RD_ADD_CREATOR_BUTTON("gdsrwave.jfp", "gdsrwave.jfp/jfp-launch-button", Variables::JFPSelector, "RD_jfp.png"_spr);
+		RD_ADD_CREATOR_BUTTON("arcticwoof.rated_layouts", "arcticwoof.rated_layouts/rated-layouts-button", Variables::RatedLayoutsSelector, "RD_ratedlayouts.png"_spr);
 		RD_ADD_CREATOR_BUTTON("techstudent10.gdguesser", "techstudent10.gdguesser/start-btn", menu_selector(CrazyLayer::onBootlegGDGuesser), "RD_gdguesser.png"_spr);
 
 		// devtools mobile button has been implemented, no need for this --raydeeux
