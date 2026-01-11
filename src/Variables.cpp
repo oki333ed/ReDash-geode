@@ -15,6 +15,7 @@ cocos2d::SEL_MenuHandler Variables::G3DSelector = nullptr;
 cocos2d::SEL_MenuHandler Variables::HigherOrLowerSelector = nullptr;
 cocos2d::SEL_MenuHandler Variables::JFPSelector = nullptr;
 cocos2d::SEL_MenuHandler Variables::RatedLayoutsSelector = nullptr;
+cocos2d::SEL_MenuHandler Variables::DifficultyProgressionSelector = nullptr;
 
 Ref<CreatorLayer> Variables::PhantomCreatorLayer = nullptr;
 

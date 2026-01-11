@@ -19,6 +19,7 @@ namespace Variables {
     extern cocos2d::SEL_MenuHandler HigherOrLowerSelector;
     extern cocos2d::SEL_MenuHandler JFPSelector;
     extern cocos2d::SEL_MenuHandler RatedLayoutsSelector;
+    extern cocos2d::SEL_MenuHandler DifficultyProgressionSelector;
 
     extern Ref<CreatorLayer> PhantomCreatorLayer;
 

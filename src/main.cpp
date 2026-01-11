@@ -177,13 +177,12 @@ class $modify(CrazyLayer, MenuLayer) {
 
 		RD_ADD_CREATOR_BUTTON("cvolton.betterinfo", "cvolton.betterinfo/main-button", Variables::BISelector, "RD_betterinfo.png"_spr);
 		RD_ADD_CREATOR_BUTTON("xanii.super_expert", "super-expert-button", Variables::SupExSelector, "RD_superexpert.png"_spr);
-		RD_ADD_CREATOR_BUTTON("minemaker0430.gddp_integration", "demon-progression-button", Variables::GDDPSelector, Mod::get()->getSettingValue<bool>("alt-gddp-texture") ? "RD_gddp2.png"_spr : "RD_gddp.png"_spr);
-		RD_ADD_CREATOR_BUTTON("spaghettdev.gd-roulette", "spaghettdev.gd-roulette/roulette-button", Variables::RouletteSelector, "RD_roulette.png"_spr);
 		RD_ADD_CREATOR_BUTTON("rainixgd.geome3dash", "rainixgd.geome3dash/map-button", Variables::G3DSelector, "RD_geome3dash.png"_spr);
 		RD_ADD_CREATOR_BUTTON("ungeil.higher_or_lower", "ungeil.higher_or_lower/HLButton", Variables::HigherOrLowerSelector, "RD_higherlower.png"_spr);
 		RD_ADD_CREATOR_BUTTON("gdsrwave.jfp", "gdsrwave.jfp/jfp-launch-button", Variables::JFPSelector, "RD_jfp.png"_spr);
 		RD_ADD_CREATOR_BUTTON("arcticwoof.rated_layouts", "arcticwoof.rated_layouts/rated-layouts-button", Variables::RatedLayoutsSelector, "RD_ratedlayouts.png"_spr);
 		RD_ADD_CREATOR_BUTTON("techstudent10.gdguesser", "techstudent10.gdguesser/start-btn", menu_selector(CrazyLayer::onBootlegGDGuesser), "RD_gdguesser.png"_spr);
+		RD_ADD_CREATOR_BUTTON("dogotrigger.level_progression", "dogotrigger.level_progression/difficulty-progression-button", Variables::DifficultyProgressionSelector, "dogotrigger.level_progression/dfbtn.png")
 
 		// devtools mobile button has been implemented, no need for this --raydeeux
 		// #ifdef GEODE_IS_MOBILE
