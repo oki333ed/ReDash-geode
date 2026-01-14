@@ -38,7 +38,7 @@ bool RDEventNode::init(CCSize size, std::string id, float scale) {
 
     m_bonusMenu->setPositionX(m_bonusMenu->getPositionX() + 5.f);
 
-    if (auto level = GLM->getSavedDailyLevel(GLM->m_eventIDUnk)) {
+    if (auto level = GLM->getSavedDailyLevel(GLM->m_activeEventID)) {
         RDEventNode::setupLevelMenu(level);
     } else {
         GLM->downloadLevel(-3, false);
@@ -114,7 +114,7 @@ void RDEventNode::onClaimReward(CCObject* sender) {
 
     if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) {
         if (auto button = typeinfo_cast<CCMenuItemSpriteExtra*>(sender)) {
-            auto rewardLayer = RewardUnlockLayer::create(as<int>(reward->m_rewardType), nullptr);
+            auto rewardLayer = RewardUnlockLayer::create(static_cast<int>(reward->m_rewardType), nullptr);
             layer->addChild(rewardLayer, 1000);
             rewardLayer->showCollectReward(reward);
 
@@ -124,7 +124,7 @@ void RDEventNode::onClaimReward(CCObject* sender) {
             m_viewButton->setPosition({ m_menu->getContentWidth() * 11/13, m_menu->getContentHeight() / 2 });
             button->removeFromParent();
 
-            m_skipButton->setVisible(GLM->m_eventIDUnk < GLM->m_eventID);
+            m_skipButton->setVisible(GLM->m_activeEventID < GLM->m_eventID);
         }
     }
 
@@ -141,7 +141,7 @@ void RDEventNode::setupLevelMenu(GJGameLevel* level) {
         this,
         menu_selector(RDEventNode::onSkipLevel)
     );
-    skipButton->setVisible(GLM->m_eventIDUnk < GLM->m_eventID);
+    skipButton->setVisible(GLM->m_activeEventID < GLM->m_eventID);
     skipButton->setScale(0.5f);
     skipButton->setPositionX(m_innerBG->getPositionX() - m_innerBG->getScaledContentSize().width/2 + 5.f);
     skipButton->setPositionY(m_innerBG->getPositionY() + m_innerBG->getScaledContentSize().height/2);
@@ -152,7 +152,7 @@ void RDEventNode::setupLevelMenu(GJGameLevel* level) {
     m_skipButton = skipButton;
 
     if (level->m_normalPercent.value() == 100
-    && !GameStatsManager::sharedState()->hasCompletedDailyLevel(GLM->m_eventIDUnk)) {
+    && !GameStatsManager::sharedState()->hasCompletedDailyLevel(GLM->m_activeEventID)) {
         auto claimButton = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_rewardBtn_001.png"),
             this,

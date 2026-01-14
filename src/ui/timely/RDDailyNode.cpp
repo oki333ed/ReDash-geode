@@ -60,7 +60,7 @@ bool RDDailyNode::init(CCSize size, std::string id, float scale) {
 
     m_bonusMenu->setPositionX(m_bonusMenu->getPositionX() + 2.f);
 
-    if (auto level = GLM->getSavedDailyLevel(GLM->m_dailyIDUnk)) {
+    if (auto level = GLM->getSavedDailyLevel(GLM->m_activeDailyID)) {
         RDDailyNode::setupLevelMenu(level);
     } else {
         GLM->downloadLevel(-1, false);
@@ -169,7 +169,7 @@ void RDDailyNode::onClaimReward(CCObject* sender) {
                 CurrencySpriteType::Icon, 0, // demonKeys
                 CurrencySpriteType::Icon, 0, // shards
                 point,
-                as<CurrencyRewardType>(0), // dunno
+                static_cast<CurrencyRewardType>(0), // dunno
                 0, 1
             );
             layer->addChild(rewardLayer, 1000);
@@ -180,7 +180,7 @@ void RDDailyNode::onClaimReward(CCObject* sender) {
             m_viewButton->setPosition({ m_menu->getContentWidth() * 11/13, m_menu->getContentHeight() / 2 });
             button->removeFromParent();
 
-            m_skipButton->setVisible(GLM->m_dailyIDUnk < GLM->m_dailyID);
+            m_skipButton->setVisible(GLM->m_activeDailyID < GLM->m_dailyID);
         }
     }
 
@@ -197,7 +197,7 @@ void RDDailyNode::setupLevelMenu(GJGameLevel* level) {
         this,
         menu_selector(RDDailyNode::onSkipLevel)
     );
-    skipButton->setVisible(GLM->m_dailyIDUnk < GLM->m_dailyID);
+    skipButton->setVisible(GLM->m_activeDailyID < GLM->m_dailyID);
     skipButton->setScale(0.5f);
     skipButton->setPositionX(m_innerBG->getPositionX() - m_innerBG->getScaledContentSize().width/2 + 5.f);
     skipButton->setPositionY(m_innerBG->getPositionY() + m_innerBG->getScaledContentSize().height/2);
@@ -208,7 +208,7 @@ void RDDailyNode::setupLevelMenu(GJGameLevel* level) {
     m_skipButton = skipButton;
 
     if (level->m_normalPercent.value() == 100
-    && !GameStatsManager::sharedState()->hasCompletedDailyLevel(GLM->m_dailyIDUnk)) {
+    && !GameStatsManager::sharedState()->hasCompletedDailyLevel(GLM->m_activeDailyID)) {
         auto claimButton = CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_rewardBtn_001.png"),
             this,

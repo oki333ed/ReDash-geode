@@ -42,8 +42,8 @@ bool RDButton::init(CCObject* target, std::string title, std::vector<std::string
 	labelMenu->setLayout(
 		ColumnLayout::create()
 			->setAxisReverse(true)
-			->setCrossAxisAlignment(as<AxisAlignment>(alignment))
-			->setCrossAxisLineAlignment(as<AxisAlignment>(alignment))
+			->setCrossAxisAlignment(static_cast<AxisAlignment>(alignment))
+			->setCrossAxisLineAlignment(static_cast<AxisAlignment>(alignment))
 			->setAutoScale(false)
 			->setGap(3.f)
 	);
@@ -97,7 +97,7 @@ bool RDButton::init(CCObject* target, std::string title, std::vector<std::string
 				loadingCircle->setVisible(true);
 				labelMenu->setVisible(false);
 			} else if (Variables::GlobalRank == -1) {
-				as<CCLabelBMFont*>(labelMenu->getChildByID("desc-label-2"))->setString("None");
+				static_cast<CCLabelBMFont*>(labelMenu->getChildByID("desc-label-2"))->setString("None");
 				labelMenu->updateLayout();
 			}
 		}
@@ -124,7 +124,7 @@ void RDButton::getLeaderboardRankFailed() {
 void RDButton::updateLeaderboardLabel() {
 	m_loadingCircle->setVisible(false);
 	m_labelMenu->setVisible(true);
-	as<CCLabelBMFont*>(m_labelMenu->getChildByID("desc-label-2"))->setString(fmt::format("#{}", Variables::GlobalRank).c_str());
+	static_cast<CCLabelBMFont*>(m_labelMenu->getChildByID("desc-label-2"))->setString(fmt::format("#{}", Variables::GlobalRank).c_str());
 	m_labelMenu->updateLayout();
 }
 
@@ -139,7 +139,7 @@ void RDButton::rotateIcon(float rotation) {
 void RDButton::updateQuestsLabel() {
 	m_completedQuests--;
 	if (auto descLabel1 = m_labelMenu->getChildByID("desc-label")) {
-		as<CCLabelBMFont*>(descLabel1)->setString(fmt::format("{}/3 Quest(s)", m_completedQuests).c_str());
+		static_cast<CCLabelBMFont*>(descLabel1)->setString(fmt::format("{}/3 Quest(s)", m_completedQuests).c_str());
 	}
 	m_labelMenu->updateLayout();
 }

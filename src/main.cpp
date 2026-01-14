@@ -23,6 +23,8 @@
 #include <fmt/core.h>
 #include <Macros.hpp>
 
+#include <alphalaneous.pages_api/include/PageMenu.h>
+
 std::string getPathString(int n) {
 	switch (n) {
 		case 1: return "Fire";
@@ -78,22 +80,29 @@ class $modify(CrazyLayer, MenuLayer) {
 	};
 
 	static void onModify(auto& self) {
-        (void) self.setHookPriorityBeforePost("MenuLayer::init", "alphalaneous.vanilla_pages");
+		(void) self.setHookPriorityAfterPost("MenuLayer::init", "alphalaneous.vanilla_pages");
 		(void) self.setHookPriorityAfterPost("MenuLayer::init", "devcmb.cleanermenu");
-    }
+	}
+
+	void onBootlegGDGuesser(CCObject*) {
+		if (!Variables::PhantomCreatorLayer) return;
+		auto startBtn = typeinfo_cast<CCMenuItemSpriteExtra*>(Variables::PhantomCreatorLayer->getChildByIDRecursive("techstudent10.gdguesser/start-btn"));
+		if (startBtn) startBtn->activate();
+	}
 
 	void setupButtons() {
 		auto loader = Loader::get();
 		auto bottomMenu = this->getChildByID("bottom-menu");
 		auto rightMenu = this->getChildByID("right-side-menu");
 
-		if (loader->isModLoaded("geode.texture-loader") && loader->isModLoaded("undefined0.gdtweaks")) {
-			if (loader->getLoadedMod("undefined0.gdtweaks")->getSettingValue<bool>("replace-more-games-w-texture")) {
-				if (auto button = this->getChildByIDRecursive("geode.texture-loader/texture-loader-button")) {
-					rightMenu->addChild(button);
-				}
-			}
-		}
+		// texture loader has moved its button to the graphics settings, no need for this --raydeeux
+		// if (loader->isModLoaded("geode.texture-loader") && loader->isModLoaded("undefined0.gdtweaks")) {
+		// 	if (loader->getLoadedMod("undefined0.gdtweaks")->getSettingValue<bool>("replace-more-games-w-texture")) {
+		// 		if (auto button = this->getChildByIDRecursive("geode.texture-loader/texture-loader-button")) {
+		// 			rightMenu->addChild(button);
+		// 		}
+		// 	}
+		// }
 
 		if (auto closeMenu = this->getChildByID("close-menu")) {
 			if (!closeMenu->getChildByID("close-button")) {
@@ -134,8 +143,8 @@ class $modify(CrazyLayer, MenuLayer) {
 				if (loader->getLoadedMod("smjs.gdintercept")->getVersion() < VersionInfo::parse("v0.5.0-alpha.5").unwrapOrDefault()) id = "smjs.gdintercept/blame-overcharged-menu";
 				if (auto node = this->getChildByIDRecursive(id)) {
 					CCMenuItemSpriteExtra* button = nullptr;
-					if (typeinfo_cast<CCSprite*>(node)) button = as<CCMenuItemSpriteExtra*>(node->getParent());
-					else if (typeinfo_cast<CCMenuItemSpriteExtra*>(node)) button = as<CCMenuItemSpriteExtra*>(node);
+					if (typeinfo_cast<CCSprite*>(node)) button = static_cast<CCMenuItemSpriteExtra*>(node->getParent());
+					else if (typeinfo_cast<CCMenuItemSpriteExtra*>(node)) button = static_cast<CCMenuItemSpriteExtra*>(node);
 
 					if (button) {
 						button->removeFromParent();
@@ -171,22 +180,28 @@ class $modify(CrazyLayer, MenuLayer) {
 		RD_ADD_CREATOR_BUTTON("minemaker0430.gddp_integration", "demon-progression-button", Variables::GDDPSelector, Mod::get()->getSettingValue<bool>("alt-gddp-texture") ? "RD_gddp2.png"_spr : "RD_gddp.png"_spr);
 		RD_ADD_CREATOR_BUTTON("spaghettdev.gd-roulette", "spaghettdev.gd-roulette/roulette-button", Variables::RouletteSelector, "RD_roulette.png"_spr);
 		RD_ADD_CREATOR_BUTTON("rainixgd.geome3dash", "rainixgd.geome3dash/map-button", Variables::G3DSelector, "RD_geome3dash.png"_spr);
+		RD_ADD_CREATOR_BUTTON("ungeil.higher_or_lower", "ungeil.higher_or_lower/HLButton", Variables::HigherOrLowerSelector, "RD_higherlower.png"_spr);
+		RD_ADD_CREATOR_BUTTON("gdsrwave.jfp", "gdsrwave.jfp/jfp-launch-button", Variables::JFPSelector, "RD_jfp.png"_spr);
+		RD_ADD_CREATOR_BUTTON("arcticwoof.rated_layouts", "arcticwoof.rated_layouts/rated-layouts-button", Variables::RatedLayoutsSelector, "RD_ratedlayouts.png"_spr);
+		RD_ADD_CREATOR_BUTTON("techstudent10.gdguesser", "techstudent10.gdguesser/start-btn", menu_selector(CrazyLayer::onBootlegGDGuesser), "RD_gdguesser.png"_spr);
+		RD_ADD_CREATOR_BUTTON("dogotrigger.level_progression", "dogotrigger.level_progression/difficulty-progression-button", Variables::DifficultyProgressionSelector, "dogotrigger.level_progression/dfbtn.png")
 
-		#ifdef GEODE_IS_ANDROID
-		if (loader->isModLoaded("geode.devtools")) {
-			auto btn = CCMenuItemSpriteExtra::create(
-				CircleButtonSprite::createWithSprite("RD_devtools.png"_spr, 1.f, CircleBaseColor::Green, CircleBaseSize::MediumAlt),
-				this,
-				menu_selector(MenuLayer::onMoreGames)
-			);
-			btn->setID("devtools-button");
-			bottomMenu->addChild(btn);
-		}
-		#endif
+		// devtools mobile button has been implemented, no need for this --raydeeux
+		// #ifdef GEODE_IS_MOBILE
+		// if (loader->isModLoaded("geode.devtools")) {
+		// 	auto btn = CCMenuItemSpriteExtra::create(
+		// 		CircleButtonSprite::createWithSprite("RD_devtools.png"_spr, 1.f, CircleBaseColor::Green, CircleBaseSize::MediumAlt),
+		// 		this,
+		// 		menu_selector(MenuLayer::onMoreGames)
+		// 	);
+		// 	btn->setID("devtools-button");
+		// 	bottomMenu->addChild(btn);
+		// }
+		// #endif
 	}
 
 	void onHideMenu(CCObject* sender) {
-		bool toggle = as<CCMenuItemToggler*>(sender)->isOn();
+		bool toggle = static_cast<CCMenuItemToggler*>(sender)->isOn();
 
 		m_fields->m_mainMenu->setVisible(toggle);
 		m_fields->m_timeliesMenu->setVisible(toggle);
@@ -272,9 +287,10 @@ class $modify(CrazyLayer, MenuLayer) {
 		}
 		bottomMenu->updateLayout();
 		bottomMenu->setZOrder(1);
-		
+		static_cast<PageMenu*>(bottomMenu)->setPaged(5, PageOrientation::VERTICAL, bottomMenu->getContentHeight() - 2, -13);
+
 		auto rightMenu = this->getChildByID("right-side-menu");
-		rightMenu->setPosition(ccp(177.5f, 25.f));
+		rightMenu->setPosition(ccp(157.5f, 25.f));
 		rightMenu->setScale(0.75f);
 		rightMenu->setLayout(
 			RowLayout::create()
@@ -287,6 +303,7 @@ class $modify(CrazyLayer, MenuLayer) {
 		rightMenu->setContentHeight(60.f);
 		rightMenu->updateLayout();
 		rightMenu->getChildByID("daily-chest-button")->setZOrder(4);
+        static_cast<PageMenu*>(rightMenu)->setPaged(7, PageOrientation::HORIZONTAL, 315, -13);
 
 		auto playerUsername = this->getChildByID("player-username");
 		playerUsername->setScale(playerUsername->getScale() - 0.1f);
@@ -538,6 +555,8 @@ class $modify(CrazyLayer, MenuLayer) {
 			creatorBtn->setID("creator-layer-button");
 			menuButUnder->addChild(creatorBtn);
 			bottomX -= creatorBtn->getScaledContentWidth()*menuButUnder->getScale();
+			static_cast<PageMenu*>(rightMenu)->setPaged(8, PageOrientation::HORIZONTAL, 270, -13);
+			rightMenu->setPositionX(rightMenu->getPositionX() - 25);
 		}
 		auto treasureSpr = CCSprite::createWithSpriteFrameName(gm->getUGV("5") ? "secretDoorBtn_open_001.png" : "secretDoorBtn_closed_001.png");
 		treasureSpr->setScale(1.25f);
@@ -614,22 +633,22 @@ class $modify(CrazyLayer, MenuLayer) {
 		hideToggler->setPosition({ hideBtnMenu->getContentWidth() / 2.f, hideBtnMenu->getContentHeight() / 2.f });
 		hideBtnMenu->addChild(hideToggler);
 
-		if (auto pagesMod = loader->getLoadedMod("alphalaneous.vanilla_pages")) {
-			if (pagesMod->getSettingValue<bool>("menulayer-bottom-menu")) {
+		// if (auto pagesMod = loader->getLoadedMod("alphalaneous.vanilla_pages")) {
+			// if (pagesMod->getSettingValue<bool>("menulayer-bottom-menu")) {
 				bottomMenu->setScale(0.975);
 				bottomMenu->setContentHeight(bottomMenu->getContentHeight() - 90.f);
-				bottomMenu->setUserObject("orientation", CCInteger::create(0)); // VERTICAL
-				bottomMenu->setUserObject("element-count", CCInteger::create(5));	
-			}
+				// bottomMenu->setUserObject("orientation", CCInteger::create(0)); // VERTICAL
+				// bottomMenu->setUserObject("element-count", CCInteger::create(5));
+			// }
 			
-			if (pagesMod->getSettingValue<bool>("menulayer-right-menu")) {
-				rightMenu->setLayout(as<RowLayout*>(rightMenu->getLayout())->setAutoScale(false)->setAxisAlignment(AxisAlignment::Center));
+			// if (pagesMod->getSettingValue<bool>("menulayer-right-menu")) {
+				// rightMenu->setLayout(static_cast<RowLayout*>(rightMenu->getLayout())->setAutoScale(false)->setAxisAlignment(AxisAlignment::Center));
 				rightMenu->setScale(0.95);
 				rightMenu->setContentWidth(rightMenu->getContentWidth() - 75.f);
-				rightMenu->setUserObject("orientation", CCInteger::create(1)); // HORIZONTAL
-				rightMenu->setUserObject("element-count", CCInteger::create((int)((rightMenu->getContentWidth() + 75.f) / 60.f)));
-			}
-		}
+				// rightMenu->setUserObject("orientation", CCInteger::create(1)); // HORIZONTAL
+				// rightMenu->setUserObject("element-count", CCInteger::create((int)((rightMenu->getContentWidth() + 75.f) / 60.f)));
+			// }
+		// }
 
 		bottomMenu->updateLayout();
 		rightMenu->updateLayout();
@@ -643,8 +662,8 @@ class $modify(test, ChallengesPage) {
 		ChallengesPage::claimItem(node, item, point);
 
 		if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) {
-			if (CCMenuItemSpriteExtra* button = as<CrazyLayer*>(layer)->m_fields->m_questBtn) {
-				auto piVar2 = as<CrazyLayer*>(layer)->m_fields->m_questBtn->getChildByID("quest-notif"_spr);
+			if (CCMenuItemSpriteExtra* button = static_cast<CrazyLayer*>(layer)->m_fields->m_questBtn) {
+				auto piVar2 = static_cast<CrazyLayer*>(layer)->m_fields->m_questBtn->getChildByID("quest-notif"_spr);
 				bool claimable = false;
 				for (int i = 1; i <= 3; i++) {
 					if (auto challenge = GameStatsManager::sharedState()->getChallenge(i)) {
@@ -656,8 +675,8 @@ class $modify(test, ChallengesPage) {
 				}
 				piVar2->setVisible(claimable);
 			} else {
-				if (auto button = typeinfo_cast<RDButton*>(layer->getChildByIDRecursive("quests-button"))) {
-					button->updateQuestsLabel();
+				if (auto questsButton = typeinfo_cast<RDButton*>(layer->getChildByIDRecursive("quests-button"))) {
+					questsButton->updateQuestsLabel();
 				}
 			}
 		}

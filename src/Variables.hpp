@@ -16,10 +16,17 @@ namespace Variables {
     extern cocos2d::SEL_MenuHandler GDDPSelector;
     extern cocos2d::SEL_MenuHandler RouletteSelector;
     extern cocos2d::SEL_MenuHandler G3DSelector;
+    extern cocos2d::SEL_MenuHandler HigherOrLowerSelector;
+    extern cocos2d::SEL_MenuHandler JFPSelector;
+    extern cocos2d::SEL_MenuHandler RatedLayoutsSelector;
+    extern cocos2d::SEL_MenuHandler DifficultyProgressionSelector;
+
+    extern Ref<CreatorLayer> PhantomCreatorLayer;
 
     extern Ref<cocos2d::CCDictionary> ThumbnailsDict;
 
     extern bool didGetGJChallenge;
     extern std::vector<ChallengesPage*> challengesPages;
 
+    extern bool isFromRedash;
 }

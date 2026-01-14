@@ -64,7 +64,7 @@ bool RDMainButton::init(CCPoint position, CCSize size, std::string id, float sca
     innerMenu->setID("level-name-menu");
     menu->addChild(innerMenu, 1);
 
-    auto diffSprite = CCSprite::createWithSpriteFrameName(fmt::format("diffIcon_0{}_btn_001.png", as<int>(level->m_difficulty)).c_str());
+    auto diffSprite = CCSprite::createWithSpriteFrameName(fmt::format("diffIcon_0{}_btn_001.png", static_cast<int>(level->m_difficulty)).c_str());
     diffSprite->setScale(0.8f);
     diffSprite->setID("difficulty-sprite");
     // diffSprite->setPosition({ size.width/6.25f, size.height/2.f });

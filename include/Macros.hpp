@@ -4,7 +4,7 @@
     if (auto child = parent->getChildByIDRecursive(id)) child->setVisible(visible);
 
 #define RD_GET_SELECTOR(layer, id, var) \
-	if (auto button = layer->getChildByIDRecursive(id)) var = as<CCMenuItemSpriteExtra*>(button)->m_pfnSelector;
+	if (auto button = layer->getChildByIDRecursive(id)) var = static_cast<CCMenuItemSpriteExtra*>(button)->m_pfnSelector;
 	
 
 #define RD_ADD_CREATOR_BUTTON(mod, id, selector, texture) \

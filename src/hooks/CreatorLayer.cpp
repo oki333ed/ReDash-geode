@@ -16,4 +16,18 @@ class $modify(CreatorLayer) {
         }
         CreatorLayer::onChallenge(sender);
     }
+    void onGauntlets(CCObject* sender) {
+        if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) Variables::isFromRedash = true;
+        CreatorLayer::onGauntlets(sender);
+    }
+    void onTreasureRoom(CCObject* sender) {
+        if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) Variables::isFromRedash = true;
+        CreatorLayer::onTreasureRoom(sender);
+        if (GameStatsManager::get()->getStat("21") < 5) Variables::isFromRedash = false;
+    }
+    void onSecretVault(CCObject* sender) {
+        if (auto layer = CCDirector::sharedDirector()->getRunningScene()->getChildByType<MenuLayer>(0)) Variables::isFromRedash = true;
+        CreatorLayer::onSecretVault(sender);
+        if (GameStatsManager::get()->getStat("13") < 0x32) Variables::isFromRedash = false;
+    }
 };
